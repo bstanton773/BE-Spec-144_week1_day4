@@ -127,6 +127,14 @@ class BST:
                 # Update the parent's right point to point to the node's child
                 parent.right = self.left if self.left else self.right
 
+    # Method to perform an in-order traversal
+    def inorder_traversal(self):
+        if self.left:
+            self.left.inorder_traversal()
+        print(self.value)
+        if self.right:
+            self.right.inorder_traversal()
+
 
 
 tree = BST(50)
@@ -138,3 +146,5 @@ tree.insert(10)
 tree.insert(35)
 print(tree.find_node(35))
 print(tree.find_node(87))
+
+tree.inorder_traversal()
