@@ -34,6 +34,33 @@ class BST:
                 # Call the insert method from the right subtree
                 self.right.insert(new_value)
 
+    # Method to find a node based on a value - will either return the BST Node instance or None
+    def find_node(self, target):
+        # If the target is equal to current node's value
+        if target == self.value:
+            # We found it!
+            return self
+        # If the target is less than the current node's value
+        elif target < self.value:
+            # See if the current node's left is empty
+            if self.left is None:
+                # We know the target is not in the tree because it would be here (or at least on this path)
+                return None
+            # if the current node does have a left subtree
+            else:
+                # Call the find_node method from the left subtree and return that value
+                return self.left.find_node(target)
+        # If the target is greater than the current node's value
+        elif target > self.value:
+            # See if the current node's right is empty
+            if self.right is None:
+                # We know the target is not in the tree because it would be here (or at least on this path)
+                return None
+            # if the current node does have a right subtree
+            else:
+                # Call the find_node method from the right subtree and return that value
+                return self.right.find_node(target)
+
 
 tree = BST(50)
 tree.insert(40)
@@ -42,3 +69,5 @@ tree.insert(90)
 tree.insert(75)
 tree.insert(10)
 tree.insert(35)
+print(tree.find_node(35))
+print(tree.find_node(87))
