@@ -200,8 +200,24 @@ You are working on a file management application, and your task is to implement 
 6. Return the total size of all files in the file system structure.
 ''')
 
-def calculate_total_folder_size():
-    pass
+def calculate_total_folder_size(folder):
+    # Start with a size of 0
+    total_size = 0
+    # Look at every item in the folder
+    for item in folder:
+        # If the item is an integer
+        if isinstance(item, int):
+            # Add the integer to the title size
+            total_size += item
+        # If the item is a list
+        elif isinstance(item, list):
+            # Recursively call the calculate_total_folder_size on the subfolder
+            total_size_of_subfolder = calculate_total_folder_size(item)
+            # Add that subfolder's size to the total_size
+            total_size += total_size_of_subfolder
+    # Once we loop through all items in folder, return the total size
+    return total_size
+
 
 file_system = [
     [10, 20, 30],  # Folder 1 with files of sizes 10, 20, and 30
