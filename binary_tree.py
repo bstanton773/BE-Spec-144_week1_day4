@@ -61,6 +61,73 @@ class BST:
                 # Call the find_node method from the right subtree and return that value
                 return self.right.find_node(target)
 
+    # Method to find the minimum value in a tree
+    def find_min(self):
+        # If the left is empty
+        if self.left is None:
+            # Then this is the smallest value
+            return self
+        # if not empty
+        else:
+            # Move to the left and try again
+            return self.left.find_min()
+
+    # Method to find the maximum value in a tree
+    def find_max(self):
+        # If the right is empty
+        if self.right is None:
+            # Then this is the largest value
+            return self
+        # if not empty
+        else:
+            # Move to the right and try again
+            return self.right.find_max()
+
+    # Method to remove a node from the tree
+    def remove(self, target, parent=None):
+        # Find the node to remove
+        if target < self.value:
+            # If the target is less than the current node's value, move to the left and try again
+            if self.left:
+                self.left.remove(target, self) # Recursively search left subtree
+        elif target > self.value:
+            # If the target is greater than the current node's value, move to the right and try again
+            if self.right:
+                self.right.remove(target, self) # Recursively search right subtree
+        # We have found the node we are trying to delete
+        else:
+            # Case 1: Node we are trying to delete has two children
+            if self.left and self.right:
+                # Replace node's value with the maximum value from the left subtree
+                self.value = self.left.find_max().value
+                # Remove the node with the max value from the left subtree
+                self.left.remove(self.value, self)
+            # Case 2: Node is a root and has one or no children
+            elif parent is None:
+                # if the node only has a left subtree
+                if self.left:
+                    self.value = self.left.value
+                    self.right = self.left.right
+                    self.left = self.left.left
+                # If the node only has a right subtree
+                elif self.right:
+                    self.value = self.right.value
+                    self.left = self.right.left
+                    self.right = self.right.right
+                # Case 3: Root Node is a leaf
+                else:
+                    # Delete the tree
+                    del self
+            # Case 4: Node has one or no children and is the left child of its parent
+            elif parent.left == self:
+                # Update the parent's left point to point to the node's child
+                parent.left = self.left if self.left else self.right
+            # Case 5: Node has one or no children and is the right child of its parent
+            elif parent.right == self:
+                # Update the parent's right point to point to the node's child
+                parent.right = self.left if self.left else self.right
+
+
 
 tree = BST(50)
 tree.insert(40)
