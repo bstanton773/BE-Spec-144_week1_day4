@@ -14,11 +14,35 @@ def line_break():
 # The call stack is a memory structure that tracks active function calls in a program, operating on a Last In, First Out (LIFO) basis.
 import time
 
+def func1():
+    print('func1 has started')
+    func2()
+    print('func1 has ended')
 
+def func2():
+    print('func2 has started')
+    # time.sleep(2)
+    print('func2 has ended')
+
+
+func1()
 
 line_break()
 
+def capitalize(name):
+    # Takes in a name, upper case the first letter and lower case the rest
+    return name[0].upper() + name[1:].lower()
 
+def full_name(first, last):
+    # take in a first and last name, capitalize both names, and concatenate them with a space in between
+    return capitalize(first) + ' ' + capitalize(last) # The capitalize on first_name needs to finish and then the capitalize on last_name needs to finish and then we concatenate
+
+def greet_person(first_name, last_name, day_of_week):
+    person_full_name = full_name(first_name, last_name) # The full_name function needs to finish before we move on to the print statement
+    print(f"Hello {person_full_name}, it sure is beautiful on this {capitalize(day_of_week)}") # The capitalize function needs to finish before the print is executed
+
+
+greet_person('bRIaN', 'STanToN', 'tHUrSDay')
 
 line_break()
 
@@ -27,7 +51,18 @@ line_break()
 # Base Case - Determines when the Recursion should stop. Without a base case, the function will call itself infinitely
 
 # Factorial Function
-# n! = 1 if n = 0, else n * (n - 1)!
+# n! = 1 if n = 0 or 1, else n * (n - 1)!
+
+def factorial(n):
+    if n <= 1:
+        print(f"factorial({n}) = 1")
+        return 1
+    else:
+        print(f"factorial({n}) = {n} * factorial({n-1})")
+        return n * factorial(n-1)
+
+
+print(factorial(5))
 
 
 
@@ -77,7 +112,25 @@ file_system = [
     ]
 ]
 
+def find_document(folder, document, parent='./'):
+    # Loop through the folder
+    for item in folder:
+        # If the item is document we are searching for
+        if item == document:
+            return parent + document
+        # If the item is a folder (list)
+        elif isinstance(item, list):
+            # Get the folder name for our parent arg
+            folder_name = item[0] # Assume the first element is folder name
+            # Recursively call the find_document on the subfolder
+            result = find_document(item, document, parent + folder_name + '/')
+            # If the document is found
+            if result:
+                # return the path of the result
+                return result
 
+
+print(find_document(file_system, 'vacation.jpg'))
 
 line_break()
 
@@ -88,21 +141,67 @@ line_break()
 # fibonacci - 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, etc
 # fib(n) = fib(n-1) + fib(n-2) if n > 1, else fib(n) = 1
 
+def fib(n):
+    if n <= 1: # Base case: When n is less than or equal to 1
+        return n
+    else:
+        return fib(n-1) + fib(n-2)
+
+# print(fib(10))
+# print(fib(20))
+# print(fib(35))
+
+
+# cache = {}
+
+# def fib(n):
+#     if n <= 1:
+#         return n
+#     elif n in cache:
+#         return cache[n]
+#     else:
+#         fib_num = fib(n-1) + fib(n-2)
+#         cache[n] = fib_num
+#         return fib_num
+
+# print(fib(135))
+# print(cache)
+
+def fib_loop(n):
+    if n <= 2:
+        return 1
+    else:
+        a, b = 1, 1
+        for _ in range(2, n):
+            a, b = b, a + b
+        return b
+
+print(fib_loop(35))
+
+
+def reverse_print(a_list):
+    if a_list:
+        print(a_list[-1])
+        reverse_print(a_list[:-1])
+
+reverse_print(['a', 'b', 'c', 'd', 'e', 'f'])
 
 
 # In Class Exercise
 
-# print('''
-# You are working on a file management application, and your task is to implement a function that calculates the total size of all files within folder. This function should recursively traverse through the folders and sum up the sizes of all files encountered.
+print('''
+You are working on a file management application, and your task is to implement a function that calculates the total size of all files within folder. This function should recursively traverse through the folders and sum up the sizes of all files encountered.
 
-# 1. Define a Python function named **`calculate_total_folder_size`** that takes a single parameter: **`folder`** (a list representing the folder structure with file sizes).
-# 2. Implement the recursive logic inside the **`calculate_total_folder_size`** function to traverse through the nested folders and calculate the total size of all files.
-# 3. Use the provided file system analogy to guide your implementation.
-# 4. Upon encountering a file (leaf node), add its size to a running total.
-# 5. Recursively traverse through subfolders to include their files' sizes in the total.
-# 6. Return the total size of all files in the file system structure.
-# ''')
+1. Define a Python function named **`calculate_total_folder_size`** that takes a single parameter: **`folder`** (a list representing the folder structure with file sizes).
+2. Implement the recursive logic inside the **`calculate_total_folder_size`** function to traverse through the nested folders and calculate the total size of all files.
+3. Use the provided file system analogy to guide your implementation.
+4. Upon encountering a file (leaf node), add its size to a running total.
+5. Recursively traverse through subfolders to include their files' sizes in the total.
+6. Return the total size of all files in the file system structure.
+''')
 
+def calculate_total_folder_size():
+    pass
 
 file_system = [
     [10, 20, 30],  # Folder 1 with files of sizes 10, 20, and 30
@@ -112,3 +211,4 @@ file_system = [
     70  # File 2 with size 70
 ]
 
+print(calculate_total_folder_size(file_system)) # Output: 410 (sum of all files)
